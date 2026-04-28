@@ -16,18 +16,30 @@ const normalizeSalary = (salary) => {
   return +result;
 };
 
-const sortList = (list) => {
-  return list.sort(
-    (a, b) =>
-      normalizeSalary(b.dataset.salary) - normalizeSalary(a.dataset.salary),
-  );
-};
-
-const sortedList = sortList(employeeItems);
-
-const getEmployees = (list) => {
+const addEmployeesToList = (list) => {
   employeeList.innerHTML = '';
   list.forEach((li) => employeeList.append(li));
 };
 
-getEmployees(sortedList);
+const sortList = (list) => {
+  const sortedList = list.sort(
+    (a, b) =>
+      normalizeSalary(b.dataset.salary) - normalizeSalary(a.dataset.salary),
+  );
+
+  addEmployeesToList(sortedList);
+};
+
+const getEmployees = (list) => {
+  return list.map((employee) => {
+    return {
+      name: employee.textContent.trim(),
+      position: employee.dataset.position.trim(),
+      salary: employee.dataset.salary.trim(),
+      age: employee.dataset.age.trim(),
+    };
+  });
+};
+
+sortList(employeeItems);
+getEmployees(employeeItems);
